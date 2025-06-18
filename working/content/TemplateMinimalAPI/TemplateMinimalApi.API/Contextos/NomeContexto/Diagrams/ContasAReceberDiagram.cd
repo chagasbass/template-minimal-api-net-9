@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="TemplateMinimalApi.API.Contextos.ContasReceber.Behaviors.ValidarContasAReceberBehaviors&lt;TRequest, TResponse&gt;">
+    <Position X="0.5" Y="0.5" Width="4.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Contextos\ContasReceber\Behaviors\ValidarContasAReceberBehaviors.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TemplateMinimalApi.API.Contextos.ContasReceber.Commands.ListarContasReceberParcelasCommandQuery">
+    <Position X="3.25" Y="4" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Contextos\ContasReceber\Commands\ListarContasReceberParcelasCommandQuery.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TemplateMinimalApi.API.Contextos.ContasReceber.Endpoints.ContasReceberParcelasModule">
+    <Position X="2.75" Y="2" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Contextos\ContasReceber\Endpoints\ContasReceberParcelasModule.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TemplateMinimalApi.API.Contextos.ContasReceber.QueryHandlers.ContasReceberParcelasQueryHandler">
+    <Position X="3.75" Y="6.25" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Contextos\ContasReceber\QueryHandlers\ContasReceberParcelasQueryHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TemplateMinimalApi.API.Contextos.ContasReceber.QueryHelpers.ContasReceberParcelaQueryHelpers">
+    <Position X="2.5" Y="7.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQgAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Contextos\ContasReceber\QueryHelpers\ContasReceberParcelaQueryHelpers.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TemplateMinimalApi.API.Contextos.ContasReceber.Repositories.ContasReceberParcelaRepository">
+    <Position X="6.5" Y="8" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Contextos\ContasReceber\Repositories\ContasReceberParcelaRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TemplateMinimalApi.API.Contextos.ContasReceber.Entities.ContasReceberParcela">
+    <Position X="6.5" Y="9.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AQARgAEBACQCABAgAEEUIxgEEDAhBQASAEIEQACAAAE=</HashCode>
+      <FileName>Contextos\ContasReceber\Entities\ContasReceberParcela.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="TemplateMinimalApi.API.Contextos.ContasReceber.Repositories.IContasReceberParcelaRepository">
+    <Position X="8.25" Y="6.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Contextos\ContasReceber\Repositories\IContasReceberParcelaRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
