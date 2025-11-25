@@ -1,15 +1,31 @@
-﻿namespace TemplateMinimalApi.Extensions.CustomLogs;
+﻿using Microsoft.ApplicationInsights.Extensibility;
+
+namespace TemplateMinimalApi.Extensions.CustomLogs;
 
 public static class LogIntegrationsExtensions
 {
-    public static Logger ConfigureStructuralLogWithSerilog()
+    public static Logger ConfigureStructuralLogWithSerilog(IConfiguration configuration)
     {
-        return new LoggerConfiguration()
-        .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-        .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Information)
-        .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Error)
-        .MinimumLevel.Override("Microsoft.Hosting.Lifetime", LogEventLevel.Error)
-        .MinimumLevel.Override("System", LogEventLevel.Error)
+        var connectionString = configuration.GetConnectionString("ApplicationInsights");
+
+        var telemetryConfiguration = new TelemetryConfiguration
+        {
+            ConnectionString = connectionString
+        };
+
+        if (!string.IsNullOrEmpty(connectionString))
+        {
+            return new LoggerConfiguration()
+        .MinimumLevel.Information()
+        .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+        .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+        .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
+        .MinimumLevel.Override("Microsoft.Hosting.Lifetime", LogEventLevel.Warning)
+        .MinimumLevel.Override("Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware", LogEventLevel.Fatal)
+        .MinimumLevel.Override("Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware", LogEventLevel.Fatal)
+        .MinimumLevel.Override("Serilog.AspNetCore.RequestLoggingMiddleware", LogEventLevel.Warning)
+        .MinimumLevel.Override("Microsoft.AspNetCore.Hosting.Diagnostics", LogEventLevel.Warning)
+        .MinimumLevel.Override("System", LogEventLevel.Warning)
         .Enrich.FromLogContext()
         .Filter.ByExcluding(c => c.Properties.Any(p => p.Value.ToString().Contains("healthcheck")))
         .Filter.ByExcluding(c => c.Properties.Any(p => p.Value.ToString().Contains("healthcheck-ui")))
@@ -24,6 +40,7 @@ public static class LogIntegrationsExtensions
         .Filter.ByExcluding(c => c.Properties.Any(p => p.Key.ToString().Contains("swagger/v1/swagger.json")))
         .Filter.ByExcluding(c => c.Properties.Any(p => p.Key.ToString().Contains("healthz-json")))
         .Filter.ByExcluding(c => c.Properties.Any(p => p.Value.ToString().Contains("healthz-json")))
+        .Filter.ByExcluding(c => c.Properties.Any(p => p.Value.ToString().StartsWith("SourceContext, 'Microsoft.AspNetCore.Diagnostics'")))
         .Destructure.ByTransforming<HttpRequest>(x => new
         {
             x.Method,
@@ -31,7 +48,43 @@ public static class LogIntegrationsExtensions
             x.QueryString
         })
         .WriteTo.Console()
+        .WriteTo.ApplicationInsights(telemetryConfiguration, TelemetryConverter.Traces)
         .CreateLogger();
+        }
+
+        return new LoggerConfiguration()
+       .MinimumLevel.Information()
+       .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+        .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+        .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
+        .MinimumLevel.Override("Microsoft.Hosting.Lifetime", LogEventLevel.Warning)
+        .MinimumLevel.Override("Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware", LogEventLevel.Fatal)
+        .MinimumLevel.Override("Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware", LogEventLevel.Fatal)
+        .MinimumLevel.Override("Serilog.AspNetCore.RequestLoggingMiddleware", LogEventLevel.Warning)
+        .MinimumLevel.Override("Microsoft.AspNetCore.Hosting.Diagnostics", LogEventLevel.Warning)
+        .MinimumLevel.Override("System", LogEventLevel.Warning)
+       .Enrich.FromLogContext()
+       .Filter.ByExcluding(c => c.Properties.Any(p => p.Value.ToString().Contains("healthcheck")))
+       .Filter.ByExcluding(c => c.Properties.Any(p => p.Value.ToString().Contains("healthcheck-ui")))
+       .Filter.ByExcluding(c => c.Properties.Any(p => p.Key.ToString().Contains("HealthChecksDb")))
+       .Filter.ByExcluding(c => c.Properties.Any(p => p.Key.ToString().Contains("HealthChecksUI")))
+       .Filter.ByExcluding(c => c.Properties.Any(p => p.Key.ToString().Contains("healthchecks-data-ui")))
+       .Filter.ByExcluding(c => c.Properties.Any(p => p.Value.ToString().Contains("swagger")))
+       .Filter.ByExcluding(c => c.Properties.Any(p => p.Key.ToString().Contains("swagger")))
+       .Filter.ByExcluding(c => c.Properties.Any(p => p.Value.ToString().Contains("swagger/index.html")))
+       .Filter.ByExcluding(c => c.Properties.Any(p => p.Key.ToString().Contains("swagger/index.html")))
+       .Filter.ByExcluding(c => c.Properties.Any(p => p.Value.ToString().Contains("swagger/v1/swagger.json")))
+       .Filter.ByExcluding(c => c.Properties.Any(p => p.Key.ToString().Contains("swagger/v1/swagger.json")))
+       .Filter.ByExcluding(c => c.Properties.Any(p => p.Key.ToString().Contains("healthz-json")))
+       .Filter.ByExcluding(c => c.Properties.Any(p => p.Value.ToString().Contains("healthz-json")))
+       .Destructure.ByTransforming<HttpRequest>(x => new
+       {
+           x.Method,
+           Url = x.Path,
+           x.QueryString
+       })
+       .WriteTo.Console()
+       .CreateLogger();
     }
 
     public static IServiceCollection AddFilterToSystemLogs(this IServiceCollection services)
@@ -44,6 +97,7 @@ public static class LogIntegrationsExtensions
                    .AddFilter("Microsoft.Hosting.Lifetime", LogLevel.Warning)
                    .AddFilter("Microsoft.AspNetCore", LogLevel.Warning)
                    .AddFilter("Microsoft.AspNetCore.Hosting.Diagnostics", LogLevel.Warning)
+                   .AddFilter("Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware", LogLevel.None)
                    .AddFilter("TinyHealthCheck", LogLevel.Warning)
                    .AddConsole();
         });

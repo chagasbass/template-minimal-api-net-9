@@ -2,13 +2,13 @@ using TemplateMinimalApi.Extensions.Authentications;
 
 var builder = WebApplication.CreateBuilder(args);
 
-Log.Logger = LogIntegrationsExtensions.ConfigureStructuralLogWithSerilog();
+var configuration = builder.Configuration;
+
+Log.Logger = LogIntegrationsExtensions.ConfigureStructuralLogWithSerilog(configuration);
 builder.Logging.AddSerilog(Log.Logger);
 
 try
 {
-    var configuration = builder.Configuration;
-
     #region configuracoes das extensoes
 
     builder.Services.AddEndpointsApiExplorer()
