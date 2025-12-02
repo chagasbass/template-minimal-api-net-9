@@ -1,9 +1,7 @@
 ﻿namespace TemplateMinimalApi.Extensions.CustomResults;
 
-public class ApiCustomResults(ILogServices logServices,
-                              INotificationServices notificationServices) : IApiCustomResults
+public class ApiCustomResults(ILogServices logServices, INotificationServices notificationServices) : IApiCustomResults
 {
-
     public IResult FormatApiResponse(CommandResult commandResult, string? defaultEndpointRoute = null)
     {
         var statusCodeOperation = notificationServices.StatusCode;
@@ -69,5 +67,4 @@ public class ApiCustomResults(ILogServices logServices,
 
         return commandResult;
     }
-
 }

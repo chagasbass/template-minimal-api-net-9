@@ -1,5 +1,3 @@
-using Microsoft.Extensions.DependencyInjection;
-
 namespace TemplateMinimalApi.Extensions.Mediator;
 
 public class Mediator : IMediator

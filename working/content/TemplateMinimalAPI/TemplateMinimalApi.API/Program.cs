@@ -1,9 +1,7 @@
 using TemplateMinimalApi.Extensions.Authentications;
-using Scalar.AspNetCore;
 using OpenTelemetry.Trace;
 using OpenTelemetry.Metrics;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,6 +52,11 @@ try
         {
             metrics.AddAspNetCoreInstrumentation();
             metrics.AddHttpClientInstrumentation();
+            var endpoint = configuration["OpenTelemetry:OtlpEndpoint"];
+            if (!string.IsNullOrWhiteSpace(endpoint))
+            {
+                metrics.AddOtlpExporter(options => options.Endpoint = new Uri(endpoint));
+            }
         });
 
     var app = builder.Build();
@@ -112,7 +115,6 @@ try
         app.MapGet("/scalar", () => Results.File(Path.Combine(scalarPath, "index.html"), "text/html"));
     }
     app.MapNomeContextoEndpoints(configuration);
-
 
     await app.RunAsync();
 }

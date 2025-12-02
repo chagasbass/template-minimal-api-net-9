@@ -5,7 +5,7 @@ namespace TemplateMinimalApi.Extensions.EndpointModules;
 
 public static class EndpointModulesExtensions { }
 
-public static class CarterVersionExtensions
+public static class ApiVersionExtensions
 {
     public static ApiVersionSet VersionEndpoints(IEndpointRouteBuilder app)
     {

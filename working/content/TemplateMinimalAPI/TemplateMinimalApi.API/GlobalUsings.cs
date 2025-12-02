@@ -16,8 +16,6 @@ global using TemplateMinimalApi.Extensions.Performances;
 global using TemplateMinimalApi.Extensions.Shared.LogCustoms.Services;
 global using TemplateMinimalApi.Extensions.Mediator;
 global using TemplateMinimalApi.API.Contextos.NomeContexto.Endpoints;
-global using Microsoft.AspNetCore.OpenApi;
-global using Scalar.AspNetCore;
 global using Microsoft.EntityFrameworkCore;
 global using TemplateMinimalApi.Extensions.Shared.Enums;
 global using TemplateMinimalApi.Extensions.Shared.Notifications;
