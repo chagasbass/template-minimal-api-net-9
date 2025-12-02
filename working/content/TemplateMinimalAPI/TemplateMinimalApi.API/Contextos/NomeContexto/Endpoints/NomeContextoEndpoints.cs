@@ -18,7 +18,12 @@ public static class NomeContextoEndpoints
         .Produces(StatusCodes.Status500InternalServerError, typeof(ProblemDetails))
         .WithName("Endpoint de teste")
         .WithTags("Teste - Meu Endpoint")
-        .WithOpenApi()
+        .AddOpenApiOperationTransformer((operation, context, ct) =>
+        {
+            operation.Summary = "Endpoint de teste";
+            operation.Description = "";
+            return Task.CompletedTask;
+        })
         .RequireAuthorizationConditionally(hasAuthentication)
         .WithApiVersionSet(versionamento)
         .MapToApiVersion(1);
@@ -32,7 +37,12 @@ public static class NomeContextoEndpoints
         .Produces<IEnumerable<DemoItem>>(StatusCodes.Status200OK)
         .WithName("EF Core Demo")
         .WithTags("EFCore")
-        .WithOpenApi()
+        .AddOpenApiOperationTransformer((operation, context, ct) =>
+        {
+            operation.Summary = "EF Core Demo";
+            operation.Description = "";
+            return Task.CompletedTask;
+        })
         .RequireAuthorizationConditionally(hasAuthentication)
         .WithApiVersionSet(versionamento)
         .MapToApiVersion(1);
@@ -50,7 +60,12 @@ public static class NomeContextoEndpoints
         .Produces(StatusCodes.Status400BadRequest, typeof(ProblemDetails))
         .WithName("EF Core Create")
         .WithTags("EFCore")
-        .WithOpenApi()
+        .AddOpenApiOperationTransformer((operation, context, ct) =>
+        {
+            operation.Summary = "EF Core Create";
+            operation.Description = "";
+            return Task.CompletedTask;
+        })
         .RequireAuthorizationConditionally(hasAuthentication)
         .WithApiVersionSet(versionamento)
         .MapToApiVersion(1);
@@ -75,7 +90,12 @@ public static class NomeContextoEndpoints
         .Produces(StatusCodes.Status400BadRequest, typeof(ProblemDetails))
         .WithName("EF Core Update")
         .WithTags("EFCore")
-        .WithOpenApi()
+        .AddOpenApiOperationTransformer((operation, context, ct) =>
+        {
+            operation.Summary = "EF Core Update";
+            operation.Description = "";
+            return Task.CompletedTask;
+        })
         .RequireAuthorizationConditionally(hasAuthentication)
         .WithApiVersionSet(versionamento)
         .MapToApiVersion(1);
@@ -100,7 +120,12 @@ public static class NomeContextoEndpoints
         .Produces(StatusCodes.Status404NotFound, typeof(ProblemDetails))
         .WithName("EF Core Delete")
         .WithTags("EFCore")
-        .WithOpenApi()
+        .AddOpenApiOperationTransformer((operation, context, ct) =>
+        {
+            operation.Summary = "EF Core Delete";
+            operation.Description = "";
+            return Task.CompletedTask;
+        })
         .RequireAuthorizationConditionally(hasAuthentication)
         .WithApiVersionSet(versionamento)
         .MapToApiVersion(1);

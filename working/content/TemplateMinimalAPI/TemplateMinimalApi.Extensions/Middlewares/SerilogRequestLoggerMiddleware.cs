@@ -36,7 +36,7 @@ public class SerilogRequestLoggerMiddleware(RequestDelegate next, ILogServices l
 
         byte[] buffer = new byte[Convert.ToInt32(httpContext.Request.ContentLength)];
 
-        await httpContext.Request.Body.ReadAsync(buffer.AsMemory(0, buffer.Length));
+        await httpContext.Request.Body.ReadExactlyAsync(buffer.AsMemory(0, buffer.Length));
 
         requestBody = Encoding.UTF8.GetString(buffer);
 

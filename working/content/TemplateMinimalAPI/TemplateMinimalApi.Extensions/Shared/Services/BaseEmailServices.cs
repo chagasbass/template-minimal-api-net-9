@@ -33,9 +33,9 @@ public abstract class BaseEmailServices
     public MailMessage CriarMensagem(EmailInfo emailInfo)
     {
         MailMessage mailMessage = new MailMessage();
-        mailMessage.From = new MailAddress(_options.Remetente, emailInfo.Titulo);
+        mailMessage.From = new MailAddress(_options.Remetente!, emailInfo.Titulo);
 
-        VerificarDestinatarios(_options.Destinatario, mailMessage);
+        VerificarDestinatarios(_options.Destinatario!, mailMessage);
 
         mailMessage.Subject = emailInfo.Assunto;
         mailMessage.Body = emailInfo.Conteudo;

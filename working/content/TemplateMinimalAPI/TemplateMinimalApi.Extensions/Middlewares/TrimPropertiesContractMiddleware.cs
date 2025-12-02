@@ -15,7 +15,7 @@ public sealed class TrimPropertiesContractMiddleware(RequestDelegate next)
                         if (property.Value.ValueKind == JsonValueKind.String)
                         {
                             // Remove espaços de strings
-                            obj[property.Name] = property.Value.GetString()?.Trim();
+                            obj[property.Name] = property.Value.GetString()?.Trim() ?? string.Empty;
                         }
                         else
                         {
