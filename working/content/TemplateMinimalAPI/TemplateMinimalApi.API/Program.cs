@@ -3,6 +3,7 @@ using Scalar.AspNetCore;
 using OpenTelemetry.Trace;
 using OpenTelemetry.Metrics;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,6 +58,20 @@ try
 
     var app = builder.Build();
 
+    using (var scope = app.Services.CreateScope())
+    {
+        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        await db.Database.EnsureCreatedAsync();
+        if (!await db.DemoItems.AnyAsync())
+        {
+            db.DemoItems.AddRange(
+                new DemoItem { Name = "Item A" },
+                new DemoItem { Name = "Item B" }
+            );
+            await db.SaveChangesAsync();
+        }
+    }
+
     #region configuracoes dos middlewares
 
     app.UseResponseCompression()
@@ -97,6 +112,7 @@ try
         app.MapGet("/scalar", () => Results.File(Path.Combine(scalarPath, "index.html"), "text/html"));
     }
     app.MapNomeContextoEndpoints(configuration);
+
 
     await app.RunAsync();
 }
