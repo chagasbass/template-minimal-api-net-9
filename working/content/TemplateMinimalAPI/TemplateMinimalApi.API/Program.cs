@@ -1,6 +1,8 @@
 using TemplateMinimalApi.Extensions.Authentications;
+using Scalar.AspNetCore;
 using OpenTelemetry.Trace;
 using OpenTelemetry.Metrics;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -74,7 +76,26 @@ try
 
     #endregion
 
-    app.MapOpenApi();
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseStaticFiles();
+        app.MapOpenApi();
+        var scalarPath = Path.Combine(app.Environment.ContentRootPath, "wwwroot", "scalar");
+        var scalarProvider = new PhysicalFileProvider(scalarPath);
+        app.UseDefaultFiles(new DefaultFilesOptions
+        {
+            FileProvider = scalarProvider,
+            RequestPath = "/scalar",
+            DefaultFileNames = new List<string> { "index.html" }
+        });
+        app.UseStaticFiles(new StaticFileOptions
+        {
+            FileProvider = scalarProvider,
+            RequestPath = "/scalar"
+        });
+
+        app.MapGet("/scalar", () => Results.File(Path.Combine(scalarPath, "index.html"), "text/html"));
+    }
     app.MapNomeContextoEndpoints(configuration);
 
     await app.RunAsync();
