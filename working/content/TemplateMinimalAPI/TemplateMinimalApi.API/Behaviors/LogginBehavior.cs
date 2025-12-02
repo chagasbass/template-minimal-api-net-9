@@ -1,9 +1,9 @@
-﻿namespace TemplateMinimalApi.API.Behaviors;
+namespace TemplateMinimalApi.API.Behaviors;
 
 public class LoggingBehavior<TRequest, TResponse>(ILogServices logServices) :
-                      IPipelineBehavior<TRequest, TResponse>
+                      TemplateMinimalApi.Extensions.Mediator.IPipelineBehavior<TRequest, TResponse>
 {
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(TRequest request, TemplateMinimalApi.Extensions.Mediator.RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
         logServices.WriteMessage("Operação iniciada");
 

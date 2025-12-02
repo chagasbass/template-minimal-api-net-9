@@ -1,11 +1,16 @@
 using TemplateMinimalApi.Extensions.Authentications;
+using OpenTelemetry.Trace;
+using OpenTelemetry.Metrics;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
 
-Log.Logger = LogIntegrationsExtensions.ConfigureStructuralLogWithSerilog(configuration);
-builder.Logging.AddSerilog(Log.Logger);
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(configuration)
+    .CreateLogger();
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(Log.Logger, dispose: true);
 
 try
 {
@@ -14,22 +19,39 @@ try
     builder.Services.AddEndpointsApiExplorer()
                     .AddProblemDetails()
                     .AddBaseConfigurationOptionsPattern(configuration)
-                    .AddSwaggerDocumentation(configuration)
+                    .AddOpenApiScalarDocumentation(configuration)
                     .AddLogServiceDependencies()
                     .AddNotificationControl()
                     .AddRequestResponseCompress()
                     .AddResponseRequestConfiguration()
+                    .AddEfCorePersistence(configuration)
                     .AddDependencyInjections()
                     .AddApiCustomResults()
                     .AddGlobalExceptionHandlerMiddleware(builder)
                     .AddFilterToSystemLogs()
                     .AddMinimalApiVersionsing()
-                    .AddEndpointModuleExtensions()
                     .AddAppHealthChecks()
                     .AddApiAuthentication(configuration)
                     .AddContractJsonOptions();
 
     #endregion
+
+    builder.Services.AddOpenTelemetry()
+        .WithTracing(tracing =>
+        {
+            tracing.AddAspNetCoreInstrumentation();
+            tracing.AddHttpClientInstrumentation();
+            var endpoint = configuration["OpenTelemetry:OtlpEndpoint"];
+            if (!string.IsNullOrWhiteSpace(endpoint))
+            {
+                tracing.AddOtlpExporter(options => options.Endpoint = new Uri(endpoint));
+            }
+        })
+        .WithMetrics(metrics =>
+        {
+            metrics.AddAspNetCoreInstrumentation();
+            metrics.AddHttpClientInstrumentation();
+        });
 
     var app = builder.Build();
 
@@ -38,8 +60,6 @@ try
     app.UseResponseCompression()
      .UseExceptionHandler()
      .UseMiddleware<SerilogRequestLoggerMiddleware>()
-     .UseSwagger()
-     .UseSwaggerUI()
      .UseHealthChecks(configuration)
      .UseHttpsRedirection()
      .UseMiddleware<TrimPropertiesContractMiddleware>();
@@ -54,7 +74,8 @@ try
 
     #endregion
 
-    app.MapEndpointModules();
+    app.MapOpenApi();
+    app.MapNomeContextoEndpoints(configuration);
 
     await app.RunAsync();
 }

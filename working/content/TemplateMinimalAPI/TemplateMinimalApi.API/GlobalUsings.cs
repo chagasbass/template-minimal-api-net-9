@@ -1,9 +1,8 @@
-﻿global using Carter;
-global using MediatR;
-global using Microsoft.AspNetCore.Mvc;
+﻿global using Microsoft.AspNetCore.Mvc;
 global using Serilog;
 global using TemplateMinimalApi.API.Behaviors;
 global using TemplateMinimalApi.API.Extensions;
+global using TemplateMinimalApi.API.Infra.Data;
 global using TemplateMinimalApi.Extensions.CustomLogs;
 global using TemplateMinimalApi.Extensions.CustomResults;
 global using TemplateMinimalApi.Extensions.Documentations;
@@ -15,4 +14,7 @@ global using TemplateMinimalApi.Extensions.Observability.Healthchecks;
 global using TemplateMinimalApi.Extensions.Options;
 global using TemplateMinimalApi.Extensions.Performances;
 global using TemplateMinimalApi.Extensions.Shared.LogCustoms.Services;
-
+global using TemplateMinimalApi.Extensions.Mediator;
+global using TemplateMinimalApi.API.Contextos.NomeContexto.Endpoints;
+global using Microsoft.AspNetCore.OpenApi;
+global using Scalar.AspNetCore;

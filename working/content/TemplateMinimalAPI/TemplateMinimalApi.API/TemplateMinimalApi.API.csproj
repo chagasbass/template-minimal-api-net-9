@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>9e717101-5410-4e9e-96ba-90cd9c6713e6</UserSecretsId>
@@ -9,41 +9,23 @@
     <DockerfileContext>.</DockerfileContext>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Contextos\Entities\**" />
-    <Compile Remove="Contextos\Repositories\**" />
-    <Compile Remove="Infra.Data\**" />
-    <Content Remove="Contextos\Entities\**" />
-    <Content Remove="Contextos\Repositories\**" />
-    <Content Remove="Infra.Data\**" />
-    <EmbeddedResource Remove="Contextos\Entities\**" />
-    <EmbeddedResource Remove="Contextos\Repositories\**" />
-    <EmbeddedResource Remove="Infra.Data\**" />
-    <None Remove="Contextos\Entities\**" />
-    <None Remove="Contextos\Repositories\**" />
-    <None Remove="Infra.Data\**" />
-  </ItemGroup>
+  
 
   <ItemGroup>
-	  <PackageReference Include="Carter" Version="9.0.0" />
-	  <PackageReference Include="Dapper" Version="2.1.66" />
-	  <PackageReference Include="MediatR" Version="12.3.0" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.2" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="9.0.1" />
+    <PackageReference Include="Scalar.AspNetCore" Version="1.0.0" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.9.0" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.9.0" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.9.0" />
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.9.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.6" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TemplateMinimalApi.Extensions\TemplateMinimalApi.Extensions.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Contextos\NomeContexto\Behaviors\" />
-    <Folder Include="Contextos\NomeContexto\Commands\" />
-    <Folder Include="Contextos\NomeContexto\Entities\" />
-    <Folder Include="Contextos\NomeContexto\QueryHandlers\" />
-    <Folder Include="Contextos\NomeContexto\QueryHelpers\" />
-    <Folder Include="Contextos\NomeContexto\Repositories\" />
-  </ItemGroup>
+  
 
 </Project>

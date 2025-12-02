@@ -1,23 +1,12 @@
-﻿using TemplateMinimalApi.Extensions.Shared.Services;
+using TemplateMinimalApi.Extensions.Shared.Services;
 
 namespace TemplateMinimalApi.API.Extensions;
 public static class DependencyInjectionExtensions
 {
     public static IServiceCollection AddDependencyInjections(this IServiceCollection services)
     {
-        //Configuração de handler
-        services.AddMediatR(config =>
-        {
-            config.RegisterServicesFromAssemblyContaining<Program>();
-
-            //Colocar as pipeline em ordem de execução
-            config.AddOpenBehavior(typeof(LoggingBehavior<,>));
-
-            //Exemplo configuração de Behaviors
-            //  config.AddBehavior<IPipelineBehavior<ListarContasReceberParcelasCommandQuery, ICommandResult>,
-            //ValidarContasAReceberBehaviors<ListarContasReceberParcelasCommandQuery, ICommandResult>>();
-
-        });
+        services.AddMediator();
+        services.AddTransient(typeof(TemplateMinimalApi.Extensions.Mediator.IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
 
         /*Resolução de dependência
          * Scoped => Tempo de vida da requisição.(aconselhado usar em APIS)
