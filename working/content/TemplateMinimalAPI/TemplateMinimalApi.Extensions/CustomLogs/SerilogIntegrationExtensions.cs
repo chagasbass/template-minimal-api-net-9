@@ -1,6 +1,4 @@
-﻿using Microsoft.ApplicationInsights.Extensibility;
-
-namespace TemplateMinimalApi.Extensions.CustomLogs;
+﻿namespace TemplateMinimalApi.Extensions.CustomLogs;
 
 public static class LogIntegrationsExtensions
 {

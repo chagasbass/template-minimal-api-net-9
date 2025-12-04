@@ -1,4 +1,4 @@
-﻿namespace RestoqueTemplateApi.Extensions.Observability.Healthchecks.Customs;
+﻿namespace TemplateMinimalApi.Extensions.Observability.Healthchecks.Customs;
 
 /// <summary>
 /// Healthcheck customizado para monitoramento da própria aplicação

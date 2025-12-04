@@ -1,12 +1,10 @@
-﻿using TemplateMinimalApi.Extensions.Middlewares;
-
-namespace TemplateMinimalApi.Extensions.Authentications;
+﻿namespace TemplateMinimalApi.Extensions.Authentications;
 
 public static class AuthenticationExtensions
 {
     public static IServiceCollection AddApiAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
-        var hasAuthentication = bool.Parse(configuration["BaseConfiguration:TemAutenticacao"]);
+        var hasAuthentication = bool.Parse(configuration["DocumentationConfiguration:TemAutenticacao"]);
 
         if (hasAuthentication)
         {
@@ -35,7 +33,7 @@ public static class AuthenticationExtensions
 
     public static WebApplication UseAuthenticationAndAuthorizationMiddlewares(this WebApplication app, IConfiguration configuration)
     {
-        var hasAuthentication = bool.Parse(configuration["BaseConfiguration:TemAutenticacao"]);
+        var hasAuthentication = bool.Parse(configuration["DocumentationConfiguration:TemAutenticacao"]);
 
         if (hasAuthentication)
         {

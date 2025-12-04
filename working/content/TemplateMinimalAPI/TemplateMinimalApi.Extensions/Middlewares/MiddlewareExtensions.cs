@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Hosting;
-
-namespace TemplateMinimalApi.Extensions.Middlewares;
+﻿namespace TemplateMinimalApi.Extensions.Middlewares;
 
 public static class MiddlewareExtensions
 {

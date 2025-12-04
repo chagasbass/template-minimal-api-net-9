@@ -93,7 +93,7 @@ public class LogData
 
     public LogData ClearLogData()
     {
-        Timestamp = DateTimeExtensions.GetGmtDateTime(DateTime.Now);
+        Timestamp = DateTimeExtensions.GetGmtDateTime();
         RequestData = string.Empty;
         RequestMethod = string.Empty;
         RequestUri = string.Empty;

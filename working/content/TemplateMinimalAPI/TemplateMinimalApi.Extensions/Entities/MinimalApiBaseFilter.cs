@@ -1,11 +1,11 @@
 ﻿namespace TemplateMinimalApi.Extensions.Entities;
 
-public abstract class FiltroBase
+public abstract class MinimalApiBaseFilter
 {
     public int? NumeroPagina { get; set; }
     public int? QuantidadePorPagina { get; set; }
 
-    protected FiltroBase() { }
+    protected MinimalApiBaseFilter() { }
 
     public void VerificarDadosDePaginacao()
     {

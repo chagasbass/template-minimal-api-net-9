@@ -1,6 +1,6 @@
 ﻿namespace TemplateMinimalApi.Extensions.Entities;
 
-public interface IFiltroValidacao
+public interface IMinimalApiFilterValidation
 {
     Notification? VerificarPreenchimentoDeFiltros();
 }

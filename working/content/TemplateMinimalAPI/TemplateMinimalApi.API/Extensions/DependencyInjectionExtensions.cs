@@ -1,10 +1,13 @@
-using TemplateMinimalApi.Extensions.Shared.Services;
+using TemplateMinimalApi.API.Infra.Extensions;
 
 namespace TemplateMinimalApi.API.Extensions;
+
 public static class DependencyInjectionExtensions
 {
-    public static IServiceCollection AddDependencyInjections(this IServiceCollection services)
+    public static IServiceCollection AddDependencyInjections(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddEfCorePersistence(configuration);
+
         services.AddMediator();
         services.AddTransient(typeof(TemplateMinimalApi.Extensions.Mediator.IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
 

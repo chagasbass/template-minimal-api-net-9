@@ -1,4 +1,7 @@
-﻿namespace TemplateMinimalApi.Extensions.Observability;
+﻿using OpenTelemetry.Metrics;
+using OpenTelemetry.Trace;
+
+namespace TemplateMinimalApi.Extensions.Observability;
 
 public static class TelemetryExtensions
 {
@@ -26,6 +29,37 @@ public static class TelemetryExtensions
         {
             ConnectionString = connectionString
         });
+
+        return services;
+    }
+
+    public static IServiceCollection AddOpenTelemetryExtension(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddOpenTelemetry()
+       .WithTracing(tracing =>
+       {
+           tracing.AddAspNetCoreInstrumentation();
+           tracing.AddHttpClientInstrumentation();
+
+           var endpoint = configuration["OpenTelemetry:OtlpEndpoint"];
+
+           if (!string.IsNullOrWhiteSpace(endpoint))
+           {
+               tracing.AddOtlpExporter(options => options.Endpoint = new Uri(endpoint));
+           }
+       })
+       .WithMetrics(metrics =>
+       {
+           metrics.AddAspNetCoreInstrumentation();
+           metrics.AddHttpClientInstrumentation();
+
+           var endpoint = configuration["OpenTelemetry:OtlpEndpoint"];
+
+           if (!string.IsNullOrWhiteSpace(endpoint))
+           {
+               metrics.AddOtlpExporter(options => options.Endpoint = new Uri(endpoint));
+           }
+       });
 
         return services;
     }

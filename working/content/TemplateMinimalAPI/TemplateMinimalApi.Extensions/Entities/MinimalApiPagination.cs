@@ -1,7 +1,7 @@
 ﻿
 namespace TemplateMinimalApi.Extensions.Entities;
 
-public class PaginacaoMinimalApi<T> where T : class
+public class MinimalApiPagination<T> where T : class
 {
     const int _TamanhoMaximoDePagina = 50;
 
@@ -13,7 +13,7 @@ public class PaginacaoMinimalApi<T> where T : class
     public bool ExistePaginaAnterior { get; set; }
     public IEnumerable<T>? Resultado { get; set; }
 
-    public PaginacaoMinimalApi(IEnumerable<T>? resultado, int totalDeItens, int paginaAtual, int tamanhoDaPagina)
+    public MinimalApiPagination(IEnumerable<T>? resultado, int totalDeItens, int paginaAtual, int tamanhoDaPagina)
     {
         Resultado = resultado;
         TotalDeItens = totalDeItens;

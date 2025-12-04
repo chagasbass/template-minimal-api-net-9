@@ -8,11 +8,8 @@ public class LogServices(IOptionsMonitor<BaseConfigurationOptions> options) : IL
 
     public void WriteLog()
     {
-        if (options.CurrentValue.HabilitarMensagensDeLog)
-        {
-            _logger.Information("[LogRequisição]:{mensagem} [RequestData]:{@RequestData} [RequestQuery]:{RequestQuery} [ResponseData]:{@ResponseData}" +
-           "[Timestamp]:{Timestamp}", LogData.Mensagem, LogData.RequestData, LogData.RequestQuery, LogData.ResponseData, LogData.Timestamp);
-        }
+        _logger.Information("[LogRequisição]:{mensagem} [RequestData]:{@RequestData} [RequestQuery]:{RequestQuery} [ResponseData]:{@ResponseData}" +
+       "[Timestamp]:{Timestamp}", LogData.Mensagem, LogData.RequestData, LogData.RequestQuery, LogData.ResponseData, LogData.Timestamp);
 
         LogData.ClearLogData();
     }
@@ -37,13 +34,7 @@ public class LogServices(IOptionsMonitor<BaseConfigurationOptions> options) : IL
 
     public void CreateStructuredLog(LogData logData) => LogData = logData;
 
-    public void WriteMessage(string message)
-    {
-        if (options.CurrentValue.HabilitarMensagensDeLog)
-        {
-            _logger.Information($"{message}");
-        }
-    }
+    public void WriteMessage(string message) => _logger.Information($"{message}");
 
     public void WriteErrorLog()
     {
@@ -58,11 +49,8 @@ public class LogServices(IOptionsMonitor<BaseConfigurationOptions> options) : IL
 
     public void WriteLogFromResiliences()
     {
-        if (options.CurrentValue.HabilitarMensagensDeLog)
-        {
-            _logger.Information("[LogRequisição]:{mensagem} [RequestUri]:{RequestUri} [ResponseStatusCode]:{ResponseStatusCode}  [RequestData]:{@RequestData}  [RequestQuery]:{RequestQuery} [ResponseData]:{@ResponseData}" +
-             "[Timestamp]:{Timestamp}", LogData.Mensagem, LogData.RequestUri, LogData.ResponseStatusCode, LogData.RequestData, LogData.RequestQuery, LogData.ResponseData, LogData.Timestamp);
-        }
+        _logger.Information("[LogRequisição]:{mensagem} [RequestUri]:{RequestUri} [ResponseStatusCode]:{ResponseStatusCode}  [RequestData]:{@RequestData}  [RequestQuery]:{RequestQuery} [ResponseData]:{@ResponseData}" +
+         "[Timestamp]:{Timestamp}", LogData.Mensagem, LogData.RequestUri, LogData.ResponseStatusCode, LogData.RequestData, LogData.RequestQuery, LogData.ResponseData, LogData.Timestamp);
 
         LogData.ClearLogData();
     }
@@ -71,7 +59,7 @@ public class LogServices(IOptionsMonitor<BaseConfigurationOptions> options) : IL
 
     public void WriteContainerLog(string? message)
     {
-        var dataAtual = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("E. South America Standard Time"));
+        var dataAtual = DateTimeExtensions.GetGmtDateTime();
 
         Console.WriteLine($"[{dataAtual.ToString("HH:mm:ss")} INF] {message}");
     }
