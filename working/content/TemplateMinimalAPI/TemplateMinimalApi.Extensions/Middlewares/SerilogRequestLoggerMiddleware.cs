@@ -1,28 +1,64 @@
 ﻿namespace TemplateMinimalApi.Extensions.Middlewares;
 
+/// <summary>
+/// Middleware que captura e estrutura dados de requisição e resposta
+/// para emissão de logs via Serilog.
+/// </summary>
 public class SerilogRequestLoggerMiddleware(RequestDelegate next, ILogServices logServices)
 {
     /// <summary>
-    /// Efetua a leitura do HttpContext para recuperar as informações de request e response para os logs
-    /// da aplicação.
+    /// Lê o contexto HTTP, captura request e response, e emite logs estruturados.
     /// </summary>
-    /// <param name="context"></param>
-    /// <returns></returns>
+    /// <param name="context">Contexto da requisição.</param>
+    /// <returns>Tarefa assíncrona representando a execução do middleware.</returns>
     public async Task InvokeAsync(HttpContext context)
     {
         string requestBody = await GetRequestBodyAsync(context);
 
-        var originalRequestBodyReference = context.Response.Body;
+        var originalBodyStream = context.Response.Body;
 
         ConsolidarInformacaoDeLogs(requestBody, context);
 
-        using var requestBodyMemoryStream = new MemoryStream();
+        using var responseBody = new MemoryStream();
+        context.Response.Body = responseBody;
 
-        await next(context);
+        try
+        {
+            await next(context);
 
-        await requestBodyMemoryStream.CopyToAsync(originalRequestBodyReference);
+            if (responseBody.CanSeek)
+            {
+                responseBody.Seek(0, SeekOrigin.Begin);
+                var responseText = await new StreamReader(responseBody).ReadToEndAsync();
+                responseBody.Seek(0, SeekOrigin.Begin);
+
+                logServices.LogData.AddResponseStatusCode(context.Response.StatusCode)
+                                    .AddResponseBody(responseText);
+                logServices.WriteLog();
+            }
+        }
+        catch (Exception ex)
+        {
+            logServices.LogData.AddException(ex)
+                                .AddResponseStatusCode(context.Response.StatusCode);
+            logServices.WriteLogWhenRaiseExceptions();
+        }
+        finally
+        {
+            if (responseBody.CanRead)
+            {
+                await responseBody.CopyToAsync(originalBodyStream);
+            }
+            context.Response.Body = originalBodyStream;
+        }
     }
 
+    /// <summary>
+    /// Lê e bufferiza o corpo da requisição para permitir sua reutilização
+    /// e registro em logs.
+    /// </summary>
+    /// <param name="httpContext">Contexto HTTP atual.</param>
+    /// <returns>Corpo da requisição como texto.</returns>
     private static async Task<string> GetRequestBodyAsync(HttpContext httpContext)
     {
         var requestBody = string.Empty;
@@ -47,6 +83,11 @@ public class SerilogRequestLoggerMiddleware(RequestDelegate next, ILogServices l
         return requestBody;
     }
 
+    /// <summary>
+    /// Consolida informações relevantes da requisição no objeto de log.
+    /// </summary>
+    /// <param name="requestBody">Conteúdo do corpo da requisição.</param>
+    /// <param name="httpContext">Contexto HTTP atual.</param>
     private void ConsolidarInformacaoDeLogs(string requestBody, HttpContext httpContext)
     {
         if (requestBody is null)
