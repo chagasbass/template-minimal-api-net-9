@@ -6,6 +6,28 @@
 /// </summary>
 public class SerilogRequestLoggerMiddleware(RequestDelegate next, ILogServices logServices)
 {
+    private static readonly HashSet<string> ExcludedContentTypes = new()
+    {
+        "application/openapi+json",
+        "application/swagger+json"
+    };
+
+    private static readonly HashSet<string> ExcludedUserAgents = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "scalar",
+        "scalar-api-reference",
+        "swagger-ui"
+    };
+
+    private static readonly HashSet<string> ExcludedPaths = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "/scalar",
+        "/swagger",
+        "/openapi",
+        "/swagger-ui",
+        "/docs"
+    };
+
     /// <summary>
     /// Lê o contexto HTTP, captura request e response, e emite logs estruturados.
     /// </summary>
@@ -13,6 +35,23 @@ public class SerilogRequestLoggerMiddleware(RequestDelegate next, ILogServices l
     /// <returns>Tarefa assíncrona representando a execução do middleware.</returns>
     public async Task InvokeAsync(HttpContext context)
     {
+        var requestPath = context.Request.Path.ToString();
+        var userAgent = context.Request.Headers["User-Agent"].ToString();
+        var contentType = context.Request.ContentType ?? string.Empty;
+
+        bool shouldSkipLogging =
+            ExcludedPaths.Any(p => requestPath.StartsWith(p)) ||
+            ExcludedUserAgents.Any(ua => userAgent.Contains(ua)) ||
+            ExcludedContentTypes.Any(ct => contentType.Contains(ct));
+
+        if (shouldSkipLogging)
+        {
+            await next(context);
+
+            return;
+        }
+
+
         string requestBody = await GetRequestBodyAsync(context);
 
         var originalBodyStream = context.Response.Body;

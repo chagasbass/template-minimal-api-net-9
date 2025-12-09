@@ -2,7 +2,7 @@
 
 public class ApiCustomResults(ILogServices logServices, INotificationServices notificationServices) : IApiCustomResults
 {
-    public IResult FormatApiResponse(CommandResult commandResult, string? defaultEndpointRoute = null)
+    public async Task<IResult> FormatApiResponse(CommandResult commandResult, string? defaultEndpointRoute = null)
     {
         var statusCodeOperation = notificationServices.StatusCode;
 

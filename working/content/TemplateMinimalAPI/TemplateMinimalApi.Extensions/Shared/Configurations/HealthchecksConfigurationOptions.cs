@@ -2,7 +2,7 @@
 
 public class HealthchecksConfigurationOptions
 {
-    public const string? BaseConfig = "HealthchecksConfiguration";
+    public const string? HealthConfig = "HealthchecksConfiguration";
 
     public int TempoDePooling { get; set; }
     public int MaximoDeEntradaPorEndpoints { get; set; }

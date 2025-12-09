@@ -2,7 +2,7 @@
 
 public class DocumentationConfigurationOptions
 {
-    public const string BaseConfig = "DocumentationConfiguration";
+    public const string DocumentationConfig = "DocumentationConfiguration";
     public string? NomeAplicacao { get; set; }
     public string? Desenvolvedor { get; set; }
     public string? Descricao { get; set; }

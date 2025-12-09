@@ -11,49 +11,46 @@ public static class WeathersEndpoints
     {
         var apiVersionSet = VersionExtensions.RetornarVersaoDeEndpoints(app);
 
-        app.MapGet("/v{version:apiVersion}/weatherforecast", () =>
+        app.MapGet("/v{version:apiVersion}/weatherforecast", async (IMediator mediator, IApiCustomResults customResults) =>
         {
-            var forecast = Enumerable.Range(1, 5).Select(index =>
-                new WeatherForecast
-                (
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    summaries[Random.Shared.Next(summaries.Count)]
-                ))
-                .ToImmutableList();
-            return forecast;
+            var commandResult = await mediator.Send(new WeatherForecastCommand());
+
+            return await customResults.FormatApiResponse(commandResult);
         })
-           .Produces<IEnumerable<WeatherForecast>>(StatusCodes.Status200OK)
+           .Produces<IEnumerable<WeatherForecastCommand>>(StatusCodes.Status200OK)
            .Produces(StatusCodes.Status401Unauthorized, typeof(ProblemDetails))
            .Produces(StatusCodes.Status400BadRequest, typeof(ProblemDetails))
            .Produces(StatusCodes.Status404NotFound, typeof(ProblemDetails))
            .Produces(StatusCodes.Status500InternalServerError, typeof(ProblemDetails))
            .WithName("WeathersV1")
            .WithTags("WeathersV1")
-           .WithDescription(@"Endpoint resposável por exibir a previsão do tempo versão 1.")
+           .WithDescription(@"Endpoint responsável por exibir a previsão do tempo versão 1.")
            .WithSummary("Endpoint de Teste de aplicação V1")
            .WithApiVersionSet(apiVersionSet)
            .MapToApiVersion(new ApiVersion(1, 0));
 
-        app.MapGet("/v{version:apiVersion}/weatherforecast", () =>
+        app.MapGet("/v{version:apiVersion}/weatherforecast", async (IMediator mediator, IApiCustomResults customResults) =>
         {
-            var forecast = Enumerable.Range(1, 5).Select(index =>
-                new WeatherForecast
-                (
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    summaries[Random.Shared.Next(summaries.Count)]
-                ))
-                .ToImmutableList();
-            return forecast;
+            //var forecast = Enumerable.Range(1, 5).Select(index =>
+            //    new WeatherForecastCommand
+            //    (
+            //        DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+            //        Random.Shared.Next(-20, 55),
+            //        summaries[Random.Shared.Next(summaries.Count)]
+            //    ))
+            //    .ToImmutableList();
+            //return forecast;
+            var commandResult = await mediator.Send(new WeatherForecastCommand());
+
+            return await customResults.FormatApiResponse(commandResult);
         })
-         .Produces<IEnumerable<WeatherForecast>>(StatusCodes.Status200OK)
+         .Produces<IEnumerable<WeatherForecastCommand>>(StatusCodes.Status200OK)
          .Produces(StatusCodes.Status400BadRequest, typeof(ProblemDetails))
          .Produces(StatusCodes.Status404NotFound, typeof(ProblemDetails))
          .Produces(StatusCodes.Status500InternalServerError, typeof(ProblemDetails))
          .WithName("WeathersV2")
          .WithTags("WeathersV2")
-         .WithDescription(@"Endpoint resposável por exibir a previsão do tempo versão 2.(Precisa de autenticação)")
+         .WithDescription(@"Endpoint responsável por exibir a previsão do tempo versão 2.(Precisa de autenticação)")
          .WithSummary("Endpoint de Teste de aplicação V2")
          .WithApiVersionSet(apiVersionSet)
          .MapToApiVersion(new ApiVersion(2, 0))

@@ -1,7 +1,4 @@
-﻿using OpenTelemetry.Metrics;
-using OpenTelemetry.Trace;
-
-namespace TemplateMinimalApi.Extensions.Observability;
+﻿namespace TemplateMinimalApi.Extensions.Observability;
 
 public static class TelemetryExtensions
 {

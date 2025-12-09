@@ -23,8 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Contexts\Weathers\Handlers\" />
     <Folder Include="Contexts\Weathers\Repositories\" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   

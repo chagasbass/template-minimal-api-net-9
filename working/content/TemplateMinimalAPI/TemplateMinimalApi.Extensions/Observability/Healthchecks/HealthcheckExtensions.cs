@@ -22,7 +22,7 @@ public static class HealthcheckExtensions
     public static IServiceCollection AddMapHealthChecksUi(this IServiceCollection services, IConfiguration configuration)
     {
 
-        var healthcheckOptions = configuration.GetSection(HealthchecksConfigurationOptions.BaseConfig).Get<HealthchecksConfigurationOptions>();
+        var healthcheckOptions = configuration.GetSection(HealthchecksConfigurationOptions.HealthConfig).Get<HealthchecksConfigurationOptions>();
 
         #region healthcheckUI
         services.AddHealthChecksUI(setupSettings: setup =>
