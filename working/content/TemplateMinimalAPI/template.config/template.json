@@ -1,7 +1,7 @@
 {
   "$schema": "http://json.schemastore.org/template",
-  "author": "Thiago Chagas",
-  "description": "Aplicação do tipo minimal API já configurada com extensões de arquitetura usando o net core 9 usando Arquitetura Slice com CQS",
+  "author": "Veste SA",
+  "description": "Aplicação do tipo minimal API já configurada com extensões de arquitetura usando o net core 10 usando Arquitetura Slice com CQS",
   "classifications": [
     "ASP.NET Core",
     "Minimal API"
@@ -9,7 +9,7 @@
   "identity": "TemplateMinimalApi.Veste",
   "groupIdentity": "TemplateMinimalApi.Veste.Customs",
   "name": "Veste Minimal API Template",
-  "shortName": "veste-minimal-api-slice-9",
+  "shortName": "veste-minimal-api-slice-10",
   "sourceName": "VesteTemplateMinimalApi",
   "preferNameDirectory": true,
   "tags": {
