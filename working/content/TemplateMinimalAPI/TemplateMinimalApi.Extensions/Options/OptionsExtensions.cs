@@ -7,7 +7,6 @@ public static class OptionsExtensions
         services.Configure<BaseConfigurationOptions>(configuration.GetSection(BaseConfigurationOptions.BaseConfig));
         services.Configure<DocumentationConfigurationOptions>(configuration.GetSection(DocumentationConfigurationOptions.DocumentationConfig));
         services.Configure<ProblemDetailConfigurationOptions>(configuration.GetSection(ProblemDetailConfigurationOptions.ProblemConfig));
-        services.Configure<HealthchecksConfigurationOptions>(configuration.GetSection(HealthchecksConfigurationOptions.HealthConfig));
         services.Configure<ResilienceConfigurationOptions>(configuration.GetSection(ResilienceConfigurationOptions.ResilienceConfig));
         services.Configure<EmailConfigurationOptions>(configuration.GetSection(EmailConfigurationOptions.EmailConfig));
 

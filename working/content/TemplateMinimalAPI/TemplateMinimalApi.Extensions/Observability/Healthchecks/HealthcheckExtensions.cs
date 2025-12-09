@@ -19,43 +19,11 @@ public static class HealthcheckExtensions
         return services;
     }
 
-    public static IServiceCollection AddMapHealthChecksUi(this IServiceCollection services, IConfiguration configuration)
-    {
-
-        var healthcheckOptions = configuration.GetSection(HealthchecksConfigurationOptions.HealthConfig).Get<HealthchecksConfigurationOptions>();
-
-        #region healthcheckUI
-        services.AddHealthChecksUI(setupSettings: setup =>
-        {
-            setup.SetHeaderText(healthcheckOptions.NomeAplicacao);
-            setup.SetEvaluationTimeInSeconds(healthcheckOptions.TempoDePooling);
-            setup.MaximumHistoryEntriesPerEndpoint(healthcheckOptions.MaximoDeEntradaPorEndpoints);
-        }).AddInMemoryStorage();
-        #endregion
 
 
-        //var nomeAplicacao = configuration["HealthchecksConfiguration:NomeAplicacao"];
-        //var tempoPooling = Int32.Parse(configuration["HealthchecksConfiguration:TempoDePooling"]);
-        //var maximoDeEntradaPorEndpoints = Int32.Parse(configuration["HealthchecksConfiguration:MaximoDeEntradaPorEndpoints"]);
-
-        //#region healthcheckUI
-        //services.AddHealthChecksUI(setupSettings: setup =>
-        //{
-        //    setup.SetHeaderText(nomeAplicacao);
-        //    setup.SetEvaluationTimeInSeconds(tempoPooling);
-        //    setup.MaximumHistoryEntriesPerEndpoint(maximoDeEntradaPorEndpoints);
-        //}).AddInMemoryStorage();
-        //#endregion
-
-        return services;
-    }
-
-    public static IApplicationBuilder UseHealthChecksMiddleware(this IApplicationBuilder app, IConfiguration configuration, bool hasUI = false)
+    public static IApplicationBuilder UseHealthChecksMiddleware(this IApplicationBuilder app, IConfiguration configuration)
     {
         app.UseHealthChecks(configuration);
-
-        if (hasUI)
-            app.UserHealthCheckUi();
 
         return app;
     }
@@ -80,28 +48,6 @@ public static class HealthcheckExtensions
                      await context.Response.WriteAsync(result);
                  }
              });
-
-        return app;
-    }
-
-    /// <summary>
-    /// Configuração do middlelware do healthcheck UI
-    /// </summary>
-    /// <param name="app"></param>
-    public static IApplicationBuilder UserHealthCheckUi(this IApplicationBuilder app)
-    {
-        app.UseHealthChecks("/healthchecks-data-ui", new HealthCheckOptions()
-        {
-            Predicate = _ => true,
-            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-        });
-
-        // Ativa o dashboard para a visualização da situação de cada Health Check
-        app.UseHealthChecksUI(options =>
-        {
-            options.UIPath = "/monitor";
-            //options.AddCustomStylesheet("dotnet.css"); add customização na dashboard
-        });
 
         return app;
     }
