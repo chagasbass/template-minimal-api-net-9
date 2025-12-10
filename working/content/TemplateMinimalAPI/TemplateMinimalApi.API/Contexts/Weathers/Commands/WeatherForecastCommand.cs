@@ -1,8 +1,6 @@
-﻿using TemplateMinimalApi.Extensions.Entities;
+﻿namespace TemplateMinimalApi.API.Contexts.Weathers.Commands;
 
-namespace TemplateMinimalApi.API.Contexts.Weathers.Commands;
-
-public class WeatherForecastCommand : IRequest<CommandResult>
+public class WeatherForecastCommand : IRequest<ICommandResult>
 {
     public int TemperatureF { get; set; }
     public DateOnly Date { get; set; }

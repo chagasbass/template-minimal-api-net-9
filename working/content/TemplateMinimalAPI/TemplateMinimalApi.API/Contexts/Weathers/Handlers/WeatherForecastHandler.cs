@@ -4,14 +4,14 @@
 /// <summary>
 /// Exemplo de Handler para uso
 /// </summary>
-public class WeatherForecastHandler : IRequestHandler<WeatherForecastCommand, CommandResult>
+public class WeatherForecastHandler : IRequestHandler<WeatherForecastCommand, ICommandResult>
 {
     static List<string> summaries = new List<string>
 {
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 };
 
-    public async Task<CommandResult> Handle(WeatherForecastCommand request, CancellationToken cancellationToken)
+    public async Task<ICommandResult> Handle(WeatherForecastCommand request, CancellationToken cancellationToken)
     {
         var forecast = Enumerable.Range(1, 5).Select(index =>
         {

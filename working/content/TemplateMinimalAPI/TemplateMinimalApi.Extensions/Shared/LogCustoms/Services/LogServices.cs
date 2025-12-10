@@ -1,6 +1,6 @@
 ﻿namespace TemplateMinimalApi.Extensions.Shared.LogCustoms.Services;
 
-public class LogServices(IOptionsMonitor<BaseConfigurationOptions> options) : ILogServices
+public class LogServices : ILogServices
 {
     public LogData LogData { get; set; } = new();
 

@@ -12,7 +12,7 @@ public static class DependencyInjectionExtensions
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
 
         //resolvendo a dependência do handler
-        services.AddRequestHandler<WeatherForecastHandler, WeatherForecastCommand, CommandResult>(ServiceLifetime.Scoped);
+        services.AddRequestHandler<WeatherForecastHandler, WeatherForecastCommand, ICommandResult>(ServiceLifetime.Scoped);
 
         /*Resolução de dependência
          * Scoped => Tempo de vida da requisição.(aconselhado usar em APIS)

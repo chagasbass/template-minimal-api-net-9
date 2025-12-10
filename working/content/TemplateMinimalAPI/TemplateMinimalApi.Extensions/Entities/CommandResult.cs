@@ -26,3 +26,4 @@ public class CommandResult : ICommandResult
         Message = message;
     }
 }
+

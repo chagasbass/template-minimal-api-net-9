@@ -39,8 +39,5 @@ public class NotificationServices : INotificationServices
 
     public IEnumerable<Notification> GetNotifications() => _notifications;
 
-    public void ClearNotifications()
-    {
-        _notifications.Clear();
-    }
+    public void ClearNotifications() => _notifications.Clear();
 }

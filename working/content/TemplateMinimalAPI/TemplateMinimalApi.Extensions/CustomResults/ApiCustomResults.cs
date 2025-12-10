@@ -6,7 +6,7 @@ public class ApiCustomResults(ILogServices logServices, INotificationServices no
     {
         var statusCodeOperation = notificationServices.StatusCode;
 
-        ICommandResult result = default;
+        ICommandResult? result = default;
 
         if (notificationServices.HasNotifications())
         {
@@ -67,4 +67,5 @@ public class ApiCustomResults(ILogServices logServices, INotificationServices no
 
         return commandResult;
     }
+
 }

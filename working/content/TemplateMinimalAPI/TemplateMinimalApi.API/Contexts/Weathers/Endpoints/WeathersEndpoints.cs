@@ -13,11 +13,11 @@ public static class WeathersEndpoints
 
         app.MapGet("/v{version:apiVersion}/weatherforecast", async (IMediator mediator, IApiCustomResults customResults) =>
         {
-            var commandResult = await mediator.Send(new WeatherForecastCommand());
+            var commandResult = (CommandResult)await mediator.Send(new WeatherForecastCommand());
 
             return await customResults.FormatApiResponse(commandResult);
         })
-           .Produces<CommandResult>(StatusCodes.Status200OK)
+           .Produces<IEnumerable<WeatherForecastCommand>>(StatusCodes.Status200OK)
            .Produces(StatusCodes.Status401Unauthorized, typeof(ProblemDetails))
            .Produces(StatusCodes.Status400BadRequest, typeof(ProblemDetails))
            .Produces(StatusCodes.Status404NotFound, typeof(ProblemDetails))
@@ -31,11 +31,11 @@ public static class WeathersEndpoints
 
         app.MapGet("/v{version:apiVersion}/weatherforecast", async (IMediator mediator, IApiCustomResults customResults) =>
         {
-            var commandResult = await mediator.Send(new WeatherForecastCommand());
+            var commandResult = (CommandResult)await mediator.Send(new WeatherForecastCommand());
 
             return await customResults.FormatApiResponse(commandResult);
         })
-         .Produces<CommandResult>(StatusCodes.Status200OK)
+         .Produces<IEnumerable<WeatherForecastCommand>>(StatusCodes.Status200OK)
          .Produces(StatusCodes.Status400BadRequest, typeof(ProblemDetails))
          .Produces(StatusCodes.Status404NotFound, typeof(ProblemDetails))
          .Produces(StatusCodes.Status500InternalServerError, typeof(ProblemDetails))
