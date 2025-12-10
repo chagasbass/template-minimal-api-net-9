@@ -32,7 +32,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TemplateMinimalApi.API\TemplateMinimalApi.API.csproj" />
     <ProjectReference Include="..\TemplateMinimalApi.Extensions\TemplateMinimalApi.Extensions.csproj" />
   </ItemGroup>
 

@@ -9,7 +9,7 @@
   "identity": "TemplateMinimalApi.Veste",
   "groupIdentity": "TemplateMinimalApi.Veste.Customs",
   "name": "Veste Minimal API Template",
-  "shortName": "veste-minimal-api-slice-10",
+  "shortName": "veste-minimal-10",
   "sourceName": "TemplateMinimalApi",
   "preferNameDirectory": true,
   "tags": {
@@ -34,13 +34,13 @@
         {
           "condition": "(!tests)",
           "exclude": [
-            "VesteTemplateMinimalApi.Test/**/*"
+            "TemplateMinimalApi.Test/**/*"
           ]
         },
         {
           "condition": "(!extensions)",
           "exclude": [
-            "VesteTemplateMinimalApi.Extensions/**/*"
+            "TemplateMinimalApi.Extensions/**/*"
           ]
         }
       ]

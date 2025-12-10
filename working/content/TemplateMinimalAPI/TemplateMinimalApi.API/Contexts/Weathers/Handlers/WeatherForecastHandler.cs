@@ -1,7 +1,9 @@
-﻿using TemplateMinimalApi.Extensions.Entities;
+﻿namespace TemplateMinimalApi.API.Contexts.Weathers.Handlers;
 
-namespace TemplateMinimalApi.API.Contexts.Weathers.Handlers;
 
+/// <summary>
+/// Exemplo de Handler para uso
+/// </summary>
 public class WeatherForecastHandler : IRequestHandler<WeatherForecastCommand, CommandResult>
 {
     static List<string> summaries = new List<string>

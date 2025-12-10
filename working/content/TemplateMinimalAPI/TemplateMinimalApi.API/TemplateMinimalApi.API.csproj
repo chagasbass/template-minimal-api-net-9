@@ -9,6 +9,13 @@
     <DockerfileContext>.</DockerfileContext>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="wwwroot\**" />
+    <Content Remove="wwwroot\**" />
+    <EmbeddedResource Remove="wwwroot\**" />
+    <None Remove="wwwroot\**" />
+  </ItemGroup>
+
   
 
   <ItemGroup>
@@ -24,7 +31,6 @@
 
   <ItemGroup>
     <Folder Include="Contexts\Weathers\Repositories\" />
-    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   

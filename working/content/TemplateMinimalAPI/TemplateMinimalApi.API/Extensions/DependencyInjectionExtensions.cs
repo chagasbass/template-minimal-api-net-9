@@ -1,5 +1,3 @@
-using TemplateMinimalApi.API.Infra.Extensions;
-
 namespace TemplateMinimalApi.API.Extensions;
 
 public static class DependencyInjectionExtensions
@@ -9,7 +7,12 @@ public static class DependencyInjectionExtensions
         services.AddEfCorePersistence(configuration);
 
         services.AddMediator();
-        services.AddTransient(typeof(TemplateMinimalApi.Extensions.Mediator.IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+
+        //resolvendo a dependência do pipeline de logging
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+
+        //resolvendo a dependência do handler
+        services.AddRequestHandler<WeatherForecastHandler, WeatherForecastCommand, CommandResult>(ServiceLifetime.Scoped);
 
         /*Resolução de dependência
          * Scoped => Tempo de vida da requisição.(aconselhado usar em APIS)

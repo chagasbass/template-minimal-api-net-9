@@ -1,7 +1,6 @@
 ﻿global using Asp.Versioning;
 global using Asp.Versioning.Builder;
 global using Flunt.Notifications;
-global using HealthChecks.UI.Client;
 global using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 global using Microsoft.AspNetCore.Authentication.JwtBearer;
 global using Microsoft.AspNetCore.Builder;

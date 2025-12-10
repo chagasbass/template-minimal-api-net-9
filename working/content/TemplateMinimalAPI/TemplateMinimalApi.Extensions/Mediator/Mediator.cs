@@ -1,19 +1,13 @@
 namespace TemplateMinimalApi.Extensions.Mediator;
 
-public class Mediator : IMediator
+public class Mediator(IServiceProvider serviceProvider) : IMediator
 {
-    private readonly IServiceProvider _serviceProvider;
-
-    public Mediator(IServiceProvider serviceProvider)
-    {
-        _serviceProvider = serviceProvider;
-    }
-
     public Task<TResponse> Send<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
     {
         var requestType = request.GetType();
         var handlerType = typeof(IRequestHandler<,>).MakeGenericType(requestType, typeof(TResponse));
-        dynamic? handler = _serviceProvider.GetService(handlerType);
+        dynamic? handler = serviceProvider.GetService(handlerType);
+
         if (handler is null)
         {
             throw new InvalidOperationException($"Nenhum handler registrado para {requestType.Name}");
@@ -35,7 +29,8 @@ public class Mediator : IMediator
     private IEnumerable<dynamic> GetBehaviors<TResponse>(Type requestType)
     {
         var behaviorType = typeof(IPipelineBehavior<,>).MakeGenericType(requestType, typeof(TResponse));
-        var behaviors = _serviceProvider.GetServices(behaviorType);
+        var behaviors = serviceProvider.GetServices(behaviorType);
+
         return behaviors.Cast<dynamic>();
     }
 }
